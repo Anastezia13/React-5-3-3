@@ -1,0 +1,19 @@
+.page {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.card {
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 65%);
+}
+
+.text {
+  line-height: 1.7;
+}
+
+@media (max-width: 576px) {
+  .page {
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+}

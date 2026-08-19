@@ -25,7 +25,6 @@ import {
 } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Header } from '../components/Header';
 import type { Job } from '../types';
 import styles from './JobDetailsPage.module.css';
 
@@ -118,7 +117,7 @@ export const JobDetailsPage = () => {
   }, [isValidJobId, jobId]);
 
   const breadcrumbs = [
-    <Link className={styles.breadcrumbLink} to="/vacancies" key="vacancies">
+    <Link className={styles.breadcrumbLink} to="/vacancies/moscow" key="vacancies">
       Вакансии
     </Link>,
     <Text size="sm" c="dimmed" key="current">
@@ -128,54 +127,45 @@ export const JobDetailsPage = () => {
 
   if (!isValidJobId) {
     return (
-      <>
-        <Header />
-        <Container size="lg" className={styles.page}>
+      <Container size="lg" className={styles.page}>
           <Alert color="red" title="Не удалось открыть вакансию" variant="light">
             <Stack gap="md">
               <Text>Некорректный идентификатор вакансии.</Text>
               <Box>
-                <Button component={Link} to="/vacancies" leftSection={<IconArrowLeft size={16} />}>
+                <Button component={Link} to="/vacancies/moscow" leftSection={<IconArrowLeft size={16} />}>
                   К списку вакансий
                 </Button>
               </Box>
             </Stack>
           </Alert>
-        </Container>
-      </>
+      </Container>
     );
   }
 
   if (loading) {
     return (
-      <>
-        <Header />
-        <Container size="lg" className={styles.page}>
+      <Container size="lg" className={styles.page}>
           <Center className={styles.loadingState}>
             <Loader size="lg" />
           </Center>
-        </Container>
-      </>
+      </Container>
     );
   }
 
   if (error || !job) {
     return (
-      <>
-        <Header />
-        <Container size="lg" className={styles.page}>
+      <Container size="lg" className={styles.page}>
           <Alert color="red" title="Не удалось открыть вакансию" variant="light">
             <Stack gap="md">
               <Text>{error ?? 'Вакансия не найдена.'}</Text>
               <Box>
-                <Button component={Link} to="/vacancies" leftSection={<IconArrowLeft size={16} />}>
+                <Button component={Link} to="/vacancies/moscow" leftSection={<IconArrowLeft size={16} />}>
                   К списку вакансий
                 </Button>
               </Box>
             </Stack>
           </Alert>
-        </Container>
-      </>
+      </Container>
     );
   }
 
@@ -183,9 +173,7 @@ export const JobDetailsPage = () => {
   const skills = getSkills(job.skills);
 
   return (
-    <>
-      <Header />
-      <Container size="lg" className={styles.page}>
+    <Container size="lg" className={styles.page}>
         <Breadcrumbs mb="lg">{breadcrumbs}</Breadcrumbs>
 
         <Card withBorder radius="lg" padding="xl" className={styles.heroCard}>
@@ -281,7 +269,6 @@ export const JobDetailsPage = () => {
             </Text>
           </Card>
         </Stack>
-      </Container>
-    </>
+    </Container>
   );
 };

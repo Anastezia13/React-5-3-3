@@ -26,9 +26,10 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import { Filters } from './components/Filters';
-import { Header } from './components/Header';
 import { JobCard } from './components/JobCard';
+import { Layout } from './layouts/Layout';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
+import { AboutPage } from './pages/AboutPage';
 import { JobDetailsPage } from './pages/JobDetailsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { fetchJobs } from './store/jobsSlice';
@@ -144,34 +145,26 @@ const CityVacanciesPage = ({ cityRoute }: CityVacanciesPageProps) => {
 
   if (loading && items.length === 0) {
     return (
-      <>
-        <Header />
-        <Container size="xl" style={{ paddingTop: 32 }}>
-          <Center style={{ minHeight: 400 }}>
-            <Loader size="xl" />
-          </Center>
-        </Container>
-      </>
+      <Container size="xl" style={{ paddingTop: 32 }}>
+        <Center style={{ minHeight: 400 }}>
+          <Loader size="xl" />
+        </Center>
+      </Container>
     );
   }
 
   if (error) {
     return (
-      <>
-        <Header />
-        <Container size="xl" style={{ paddingTop: 32 }}>
-          <Alert color="red" title="Ошибка">
-            {error}
-          </Alert>
-        </Container>
-      </>
+      <Container size="xl" style={{ paddingTop: 32 }}>
+        <Alert color="red" title="Ошибка">
+          {error}
+        </Alert>
+      </Container>
     );
   }
 
   return (
-    <>
-      <Header />
-      <Container size="xl" style={{ paddingTop: 32, paddingBottom: 32 }}>
+    <Container size="xl" style={{ paddingTop: 32, paddingBottom: 32 }}>
         <Group className={styles.topRow} wrap="nowrap">
           <Box className={styles.titleWrapper}>
             <Text className={styles.titleMain}>Список вакансий</Text>
@@ -231,8 +224,7 @@ const CityVacanciesPage = ({ cityRoute }: CityVacanciesPageProps) => {
             )}
           </Box>
         </Group>
-      </Container>
-    </>
+    </Container>
   );
 };
 
@@ -240,14 +232,17 @@ function App() {
   return (
     <MantineProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Navigate to="/vacancies/moscow" replace />} />
-        <Route path="/vacancies">
-          <Route index element={<Navigate to="/vacancies/moscow" replace />} />
-          <Route path="moscow" element={<CityVacanciesPage cityRoute="moscow" />} />
-          <Route path="petersburg" element={<CityVacanciesPage cityRoute="petersburg" />} />
-          <Route path=":id" element={<JobDetailsPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Navigate to="/vacancies/moscow" replace />} />
+          <Route path="/vacancies">
+            <Route index element={<CityVacanciesPage cityRoute="moscow" />} />
+            <Route path="moscow" element={<CityVacanciesPage cityRoute="moscow" />} />
+            <Route path="petersburg" element={<CityVacanciesPage cityRoute="petersburg" />} />
+            <Route path=":id" element={<JobDetailsPage />} />
+          </Route>
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </MantineProvider>
   );

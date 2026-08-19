@@ -1,9 +1,15 @@
 import { Anchor, Box, Button, Group, Text } from '@mantine/core';
 import { IconUser } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.css';
 
 export const Header = () => {
+  const vacanciesRootMatch = useMatch('/vacancies');
+  const vacanciesNestedMatch = useMatch('/vacancies/*');
+  const aboutMatch = useMatch('/about');
+  const isVacanciesActive = Boolean(vacanciesRootMatch || vacanciesNestedMatch);
+  const isAboutActive = Boolean(aboutMatch);
+
   return (
     <Box className={styles.header}>
       <Group justify="space-between">
@@ -13,14 +19,20 @@ export const Header = () => {
         </Group>
 
         <Group gap="xl">
-          <Anchor component={Link} to="/vacancies/moscow" className={styles.menuLink}>
+          <Anchor
+            component={Link}
+            to="/vacancies/moscow"
+            className={`${styles.menuLink} ${isVacanciesActive ? styles.menuLinkActive : ''}`}
+          >
             Вакансии FE
           </Anchor>
           <Button
+            component={Link}
+            to="/about"
             variant="subtle"
-            color="gray"
+            color={isAboutActive ? 'blue' : 'gray'}
             leftSection={<IconUser size={16} />}
-            className={styles.menuButton}
+            className={`${styles.menuButton} ${isAboutActive ? styles.menuButtonActive : ''}`}
           >
             Обо мне
           </Button>
